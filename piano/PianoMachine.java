@@ -1,6 +1,8 @@
 package piano;
 
+import midi.Instrument;
 import midi.Midi;
+import music.BeginNote;
 import music.NoteEvent;
 import music.Pitch;
 
@@ -35,14 +37,28 @@ public class PianoMachine {
         }
         isRecording= !isRecording;
     }
-    public void beginNote(NoteEvent event){
+    public void playNote(NoteEvent event){
+        if(isRecording) recording.add(event);
         Pitch pitch = event.getPitch();
+        Instrument instrument = event.getInstrument();
+        if(event instanceof BeginNote)
+            beginNote(pitch,instrument);
+        else
+            endNote(pitch,instrument);
+    }
+
+    public void beginNote(Pitch pitch,Instrument instrument){
         if(pitchesPlaying.contains(pitch)) return;
         pitchesPlaying.add(pitch);
-        midi.beginNote(pitch.toMidiFrequency());
-        if(isRecording) recording.add(event);
+        midi.beginNote(pitch.toMidiFrequency(),instrument);
     }
+    public void endNote(Pitch pitch,Instrument instrument){
+        midi.endNote(pitch.toMidiFrequency(),instrument);
+        pitchesPlaying.remove(pitch);
+    }
+
     public void requestPlayback(){
         player.playbackRecording(lastRecording);
     }
+
 }

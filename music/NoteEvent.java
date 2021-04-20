@@ -1,18 +1,21 @@
 package music;
 
+import midi.Instrument;
 import piano.PianoMachine;
 
 public abstract class NoteEvent {
     protected final Pitch pitch;
     protected final int delay;
+    protected final Instrument instrument;
 
-    public NoteEvent(Pitch pitch){
-        this(pitch,0);
+    public NoteEvent(Pitch pitch,Instrument instrument){
+        this(pitch,0,instrument);
     }
 
-    public NoteEvent(Pitch pitch, int delay) {
+    public NoteEvent(Pitch pitch, int delay, Instrument instrument) {
         this.pitch = pitch;
         this.delay = delay;
+        this.instrument=instrument;
     }
     abstract public  NoteEvent delayed(int delay);
     abstract public void execute(PianoMachine m);
@@ -23,5 +26,9 @@ public abstract class NoteEvent {
 
     public int getDelay() {
         return delay;
+    }
+
+    public Instrument getInstrument() {
+        return instrument;
     }
 }

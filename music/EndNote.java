@@ -1,14 +1,15 @@
 package music;
 
+import midi.Instrument;
 import piano.PianoMachine;
 
 public class EndNote extends NoteEvent{
-    public EndNote(Pitch pitch) {
-        super(pitch);
+    public EndNote(Pitch pitch, Instrument instrument) {
+        super(pitch,instrument);
     }
 
-    public EndNote(Pitch pitch, int delay) {
-        super(pitch, delay);
+    public EndNote(Pitch pitch, int delay, Instrument instrument) {
+        super(pitch, delay,instrument);
     }
 
     @Override
@@ -18,6 +19,6 @@ public class EndNote extends NoteEvent{
 
     @Override
     public void execute(PianoMachine m) {
-
+        m.playNote(this);
     }
 }
