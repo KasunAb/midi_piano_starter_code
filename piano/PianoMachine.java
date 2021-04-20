@@ -32,10 +32,12 @@ public class PianoMachine {
         this.player=player;
     }
     public void toggleRecording(){
-        if(isRecording)
+        if(isRecording){
             lastRecording = recording;
+            System.out.println("stoped recording");}
         else {
             recording= new ArrayList<NoteEvent>();
+            System.out.println("start recording");
         }
         isRecording= !isRecording;
     }
@@ -67,6 +69,7 @@ public class PianoMachine {
         long currentPressedTime=System.currentTimeMillis();
         int delay = (int)(currentPressedTime-lastPressedTime);
         lastPressedTime = currentPressedTime;
+        System.out.println(delay);
         return delay;
     }
     public void requestPlayback(){

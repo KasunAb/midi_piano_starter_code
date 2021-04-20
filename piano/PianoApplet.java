@@ -51,11 +51,13 @@ public class PianoApplet extends Applet {
 				}
 				if(key == 'I'){
 					currentInstrument = currentInstrument.next();
+					System.out.println("instrument changed");
 				}
 				if(key=='R')
 					player.toggleRecording();
-				if(key=='P')
+				if(key=='P'){
 					player.requestPlayback();
+					System.out.println("start playback");}
 			}
 		});
 
