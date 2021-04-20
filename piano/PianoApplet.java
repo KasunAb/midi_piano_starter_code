@@ -21,7 +21,7 @@ public class PianoApplet extends Applet {
 	Instrument currentInstrument = Midi.DEFAULT_INSTRUMENT;
 	Map<Character, Integer> map=new HashMap<>();
 	PianoPlayer player= new PianoPlayer();
-
+	long lastPressedTime=System.currentTimeMillis();
 	public void init() {
 		map.put('1',0);
 		map.put('2',1);
@@ -40,11 +40,12 @@ public class PianoApplet extends Applet {
 		// the call to the constructor of KeyAdapter creates an object of an
 		// anonymous subclass of KeyAdapter, whose keyPressed method is called
 		// when a key is pressed in the GUI
+
 		addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				char key = (char) e.getKeyCode();
 				if(map.containsKey(key)){
-					player.request(new BeginNote(new Pitch(map.get(key)),currentInstrument));
+					player.request(new BeginNote(new Pitch(map.get(key)),delayCount(),currentInstrument));
 				}
 				if(key == 'I'){
 					currentInstrument = currentInstrument.next();
@@ -56,10 +57,18 @@ public class PianoApplet extends Applet {
 			public void keyReleased(KeyEvent e) {
 				char key = (char) e.getKeyCode();
 				if(map.containsKey(key)){
-					player.request(new EndNote(new Pitch(map.get(key)),currentInstrument));
+					player.request(new EndNote(new Pitch(map.get(key)),delayCount(),currentInstrument));
 				}
 			}
 		});
-	}	
+
+	}
+	public int delayCount(){
+		long currentPressedTime=System.currentTimeMillis();
+		int delay = (int)(currentPressedTime-lastPressedTime);
+		lastPressedTime=currentPressedTime;
+		System.out.println(delay);
+		return delay;
+	}
     
 }

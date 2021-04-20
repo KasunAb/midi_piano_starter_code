@@ -5,7 +5,7 @@ import piano.PianoMachine;
 
 public abstract class NoteEvent {
     protected final Pitch pitch;
-    protected final int delay;
+    protected int delay;
     protected final Instrument instrument;
 
     public NoteEvent(Pitch pitch,Instrument instrument){
@@ -30,5 +30,9 @@ public abstract class NoteEvent {
 
     public Instrument getInstrument() {
         return instrument;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 }
