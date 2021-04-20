@@ -19,6 +19,7 @@ public class PianoMachine {
     private final PianoPlayer player;
     private Midi midi;
     int delay=0;
+    long lastPressedTime=System.currentTimeMillis();
 
     public PianoMachine(PianoPlayer player) {
         lastRecording = new ArrayList<NoteEvent>();
@@ -40,31 +41,34 @@ public class PianoMachine {
     }
     public void playNote(NoteEvent event){
         Pitch pitch = event.getPitch();
-        int delayTime = event.getDelay();
         Instrument instrument = event.getInstrument();
         if(event instanceof BeginNote)
-            beginNote(pitch,delayTime,instrument,event);
+            beginNote(pitch,instrument,event);
         else
             endNote(pitch,instrument,event);
     }
 
-    public void beginNote(Pitch pitch,int delayTime,Instrument instrument,NoteEvent event){
+    public void beginNote(Pitch pitch,Instrument instrument,NoteEvent event){
         if(pitchesPlaying.contains(pitch)) {
-            delay+=delayTime;
             return;
         }
         pitchesPlaying.add(pitch);
         midi.beginNote(pitch.toMidiFrequency(),instrument);
-        event.setDelay(delay);
-        delay=0;
+        event.setDelay(delayCount());
         if(isRecording) recording.add(event);
     }
     public void endNote(Pitch pitch,Instrument instrument,NoteEvent event){
         midi.endNote(pitch.toMidiFrequency(),instrument);
         pitchesPlaying.remove(pitch);
+        event.setDelay(delayCount());
         if(isRecording) recording.add(event);
     }
-
+    public int delayCount(){
+        long currentPressedTime=System.currentTimeMillis();
+        int delay = (int)(currentPressedTime-lastPressedTime);
+        lastPressedTime = currentPressedTime;
+        return delay;
+    }
     public void requestPlayback(){
         player.playbackRecording(lastRecording);
     }

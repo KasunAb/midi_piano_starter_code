@@ -28,6 +28,7 @@ public class PianoPlayer {
     public void toggleRecording(){
         machine.toggleRecording();
     }
+
     public void playbackRecording(List<NoteEvent> recording){
         for (NoteEvent e:recording) {
             try {
