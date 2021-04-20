@@ -70,7 +70,6 @@ public class PianoMachine {
         long currentPressedTime=System.currentTimeMillis();
         int delay = (int)(currentPressedTime-lastPressedTime);
         lastPressedTime = currentPressedTime;
-        System.out.println(delay);
         return delay;
     }
     public void requestPlayback(){
