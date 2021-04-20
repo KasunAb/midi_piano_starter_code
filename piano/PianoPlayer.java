@@ -65,4 +65,8 @@ public class PianoPlayer {
             }
         }
     }
+
+    public boolean isRecording() {
+        return machine.isRecording();
+    }
 }

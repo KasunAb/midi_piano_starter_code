@@ -34,7 +34,8 @@ public class PianoMachine {
     public void toggleRecording(){
         if(isRecording){
             lastRecording = recording;
-            System.out.println("stoped recording");}
+            System.out.println("stoped recording");
+        }
         else {
             recording= new ArrayList<NoteEvent>();
             System.out.println("start recording");
@@ -77,4 +78,7 @@ public class PianoMachine {
     }
 
 
+    public boolean isRecording() {
+        return isRecording;
+    }
 }

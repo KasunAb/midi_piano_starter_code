@@ -5,6 +5,7 @@
  * (c) 2008, MIT and Daniel Jackson
  */
 package piano;
+import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class PianoApplet extends Applet {
 		map.put('8',7);
 		map.put('9',8);
 		map.put('=',9);
-
+		setBackground(Color.GREEN);
 		Runnable play = () -> player.processQueue();
 		(new Thread(play)).start();
 
@@ -53,8 +54,10 @@ public class PianoApplet extends Applet {
 					currentInstrument = currentInstrument.next();
 					System.out.println("instrument changed");
 				}
-				if(key=='R')
+				if(key=='R'){
 					player.toggleRecording();
+					if(player.isRecording()) setBackground(Color.RED);
+					else setBackground(Color.GREEN);}
 				if(key=='P'){
 					player.requestPlayback();
 					System.out.println("start playback");}
